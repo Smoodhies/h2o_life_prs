@@ -73,7 +73,10 @@ export default function ProductCard({
       />
 
       {/* Product image */}
-      <div className="relative w-full flex items-center justify-center mb-4 pt-2" style={{ height: 200 }}>
+      <div
+        className="relative w-full flex items-center justify-center mb-4 pt-2"
+        style={{ height: 200 }}
+      >
         {/* Soft blue glow behind product */}
         <div
           className="absolute inset-0 flex items-center justify-center pointer-events-none"

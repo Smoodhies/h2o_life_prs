@@ -46,7 +46,8 @@ export default function FeatureMiniCard({
       <div
         className="absolute inset-0 pointer-events-none rounded-[20px]"
         style={{
-          background: "radial-gradient(circle at 30% 15%, rgba(255, 255, 255, 0.25), transparent 60%)",
+          background:
+            "radial-gradient(circle at 30% 15%, rgba(255, 255, 255, 0.25), transparent 60%)",
         }}
       />
 
@@ -64,7 +65,9 @@ export default function FeatureMiniCard({
       <div
         className="relative z-10 text-3xl mb-3 transition-all duration-400"
         style={{
-          filter: isHovered ? "grayscale(0) drop-shadow(0 0 8px rgba(0,194,255,0.3))" : "grayscale(0.5)",
+          filter: isHovered
+            ? "grayscale(0) drop-shadow(0 0 8px rgba(0,194,255,0.3))"
+            : "grayscale(0.5)",
           opacity: isHovered ? 1 : 0.75,
         }}
       >

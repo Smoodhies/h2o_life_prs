@@ -30,10 +30,10 @@ export default function CanModel({ theme = "dark", ...props }: CanModelProps) {
   );
 
   // Load dark textures
-  const [darkFront, darkBack] = useLoader(
-    TextureLoader,
-    ["/img/dark_can/dark_front.png", "/img/dark_can/dark_back.png"],
-  );
+  const [darkFront, darkBack] = useLoader(TextureLoader, [
+    "/img/dark_can/dark_front.png",
+    "/img/dark_can/dark_back.png",
+  ]);
 
   // Trigger spin on theme change
   useEffect(() => {
@@ -91,8 +91,7 @@ export default function CanModel({ theme = "dark", ...props }: CanModelProps) {
     if (!group.current) return;
 
     // Gentle floating animation
-    group.current.position.y =
-      Math.sin(state.clock.elapsedTime * 0.6) * 0.12;
+    group.current.position.y = Math.sin(state.clock.elapsedTime * 0.6) * 0.12;
 
     // Smooth 360deg Y-axis spin on theme change (front to back rotation)
     if (isSpinning) {
@@ -107,10 +106,7 @@ export default function CanModel({ theme = "dark", ...props }: CanModelProps) {
         setSpinProgress(newProgress);
         // Cubic ease-in-out for buttery smooth feel
         const t = newProgress;
-        const eased =
-          t < 0.5
-            ? 4 * t * t * t
-            : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
         group.current.rotation.y = -0.3 + eased * Math.PI * 2;
       }
     }

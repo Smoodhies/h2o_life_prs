@@ -46,28 +46,28 @@ export default function Hero() {
         delay: 0.2,
         ease: "back.out(1.2)",
       })
-      // Then can with upward motion
-      .from(
-        canContainerRef.current,
-        {
-          scale: 0.85,
-          opacity: 0,
-          y: 50,
-          duration: 1.8,
-          ease: "power2.out",
-        },
-        "-=0.6",
-      )
-      // Finally bottom text slides in
-      .from(
-        contentRef.current,
-        {
-          y: 30,
-          opacity: 0,
-          duration: 1.4,
-        },
-        "-=1.0",
-      );
+        // Then can with upward motion
+        .from(
+          canContainerRef.current,
+          {
+            scale: 0.85,
+            opacity: 0,
+            y: 50,
+            duration: 1.8,
+            ease: "power2.out",
+          },
+          "-=0.6",
+        )
+        // Finally bottom text slides in
+        .from(
+          contentRef.current,
+          {
+            y: 30,
+            opacity: 0,
+            duration: 1.4,
+          },
+          "-=1.0",
+        );
     }, container);
 
     return () => ctx.revert();
@@ -118,7 +118,9 @@ export default function Hero() {
           left: isPortrait ? "50%" : "52%",
           top: "50%",
           transform: "translate(-50%, -50%)",
-          fontSize: isPortrait ? "clamp(140px, 35vw, 200px)" : "clamp(200px, 24vw, 360px)",
+          fontSize: isPortrait
+            ? "clamp(140px, 35vw, 200px)"
+            : "clamp(200px, 24vw, 360px)",
           fontWeight: 800,
           background:
             "linear-gradient(135deg, rgba(240, 250, 255, 0.95) 0%, rgba(150, 230, 255, 0.95) 20%, rgba(70, 200, 255, 0.95) 50%, rgba(0, 160, 230, 0.9) 80%, rgba(0, 120, 200, 0.9) 100%)",
@@ -154,7 +156,8 @@ export default function Hero() {
             inset 0 0 70px rgba(150, 230, 255, 1),
             inset 0 0 110px rgba(70, 200, 255, 0.9)
           `,
-          filter: "drop-shadow(0 25px 50px rgba(0, 120, 180, 0.7)) contrast(1.15) brightness(1.1)",
+          filter:
+            "drop-shadow(0 25px 50px rgba(0, 120, 180, 0.7)) contrast(1.15) brightness(1.1)",
         }}
       >
         H2O
@@ -182,9 +185,9 @@ export default function Hero() {
         <h1
           className="font-black tracking-tight"
           style={{
-            fontSize: isPortrait 
-              ? "clamp(24px, 5vw, 38px)" 
-              : isUltrawide 
+            fontSize: isPortrait
+              ? "clamp(24px, 5vw, 38px)"
+              : isUltrawide
                 ? "clamp(42px, 3.5vw, 68px)"
                 : "clamp(32px, 4vw, 56px)",
             lineHeight: 1.05,
@@ -221,7 +224,8 @@ export default function Hero() {
               inset 0 0 60px rgba(200, 240, 255, 1),
               inset 0 0 90px rgba(150, 220, 255, 0.9)
             `,
-            filter: "drop-shadow(0 12px 30px rgba(0, 120, 180, 0.6)) contrast(1.2) brightness(1.15)",
+            filter:
+              "drop-shadow(0 12px 30px rgba(0, 120, 180, 0.6)) contrast(1.2) brightness(1.15)",
           }}
         >
           <span className="block">PURE HYDRATION</span>
@@ -238,10 +242,15 @@ export default function Hero() {
           bottom: isPortrait ? "5%" : isUltrawide ? "8%" : "6%",
           left: "50%",
           transform: "translateX(-50%)",
-          width: isPortrait ? "clamp(190px, 48vw, 340px)" : isUltrawide ? "clamp(240px, 26vw, 420px)" : "clamp(220px, 35vw, 420px)",
+          width: isPortrait
+            ? "clamp(190px, 48vw, 340px)"
+            : isUltrawide
+              ? "clamp(240px, 26vw, 420px)"
+              : "clamp(220px, 35vw, 420px)",
           height: isPortrait ? "54%" : isUltrawide ? "60%" : "60%",
           zIndex: 10,
-          transition: "left 0.3s ease, bottom 0.3s ease, width 0.3s ease, height 0.3s ease",
+          transition:
+            "left 0.3s ease, bottom 0.3s ease, width 0.3s ease, height 0.3s ease",
         }}
       >
         <div
@@ -254,7 +263,8 @@ export default function Hero() {
             height: 60,
             borderRadius: "50%",
             transform: "translateX(-50%)",
-            background: "radial-gradient(ellipse, rgba(0,194,255,0.2) 0%, rgba(0,194,255,0.06) 40%, transparent 70%)",
+            background:
+              "radial-gradient(ellipse, rgba(0,194,255,0.2) 0%, rgba(0,194,255,0.06) 40%, transparent 70%)",
             filter: "blur(12px)",
             zIndex: -1,
           }}

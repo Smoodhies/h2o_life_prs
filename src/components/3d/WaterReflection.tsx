@@ -84,11 +84,7 @@ export default function WaterReflection({
   });
 
   return (
-    <mesh
-      ref={meshRef}
-      position={[0, -2.8, 0]}
-      rotation={[-Math.PI / 2, 0, 0]}
-    >
+    <mesh ref={meshRef} position={[0, -2.8, 0]} rotation={[-Math.PI / 2, 0, 0]}>
       <planeGeometry args={[12, 12, 64, 64]} />
       <shaderMaterial ref={materialRef} attach="material" {...shaderArgs} />
     </mesh>
