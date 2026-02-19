@@ -2,7 +2,14 @@
 
 import { useRef, useMemo } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
-import { Group, TextureLoader, MeshPhysicalMaterial, RepeatWrapping, Vector2, CylinderGeometry } from "three";
+import {
+  Group,
+  TextureLoader,
+  MeshPhysicalMaterial,
+  RepeatWrapping,
+  Vector2,
+  CylinderGeometry,
+} from "three";
 import * as THREE from "three";
 
 export default function IceCubes(props: any) {
@@ -11,7 +18,7 @@ export default function IceCubes(props: any) {
   // Load both base texture and normal map
   const [baseTexture, normalMap] = useLoader(TextureLoader, [
     "/textures/ice_cube.png",
-    "/textures/ice/Material_25_normal.png"
+    "/textures/ice/Material_25_normal.png",
   ]);
 
   // Configure textures
@@ -35,8 +42,8 @@ export default function IceCubes(props: any) {
       metalness: 0,
       roughness: 0.1,
       transmission: 0.78, // Balanced for visibility and ice look
-      thickness: 1.5,     // Realistic depth
-      ior: 1.31,           // Index of Refraction for real ice
+      thickness: 1.5, // Realistic depth
+      ior: 1.31, // Index of Refraction for real ice
       opacity: 1,
       transparent: true,
       envMapIntensity: 2.4,
@@ -54,12 +61,12 @@ export default function IceCubes(props: any) {
   // Create hexagonal ice cube geometry (6-sided cylinder)
   const iceGeometry = useMemo(() => {
     const geometry = new CylinderGeometry(
-      1,      // radiusTop
-      1,      // radiusBottom
-      1.2,    // height - slightly taller for ice cube look
-      6,      // radialSegments - 6 sides for hexagon
-      1,      // heightSegments
-      false   // openEnded
+      1, // radiusTop
+      1, // radiusBottom
+      1.2, // height - slightly taller for ice cube look
+      6, // radialSegments - 6 sides for hexagon
+      1, // heightSegments
+      false, // openEnded
     );
     geometry.computeVertexNormals(); // Ensure proper normals for lighting
     return geometry;
@@ -96,7 +103,10 @@ export default function IceCubes(props: any) {
       ref.position.z = Math.sin(angle) * data.orbitRadius;
 
       // Smooth vertical floating
-      ref.position.y = data.yOffset + Math.sin(time * data.floatSpeed + data.orbitOffset) * data.floatAmplitude;
+      ref.position.y =
+        data.yOffset +
+        Math.sin(time * data.floatSpeed + data.orbitOffset) *
+          data.floatAmplitude;
 
       // Constant chaotic rotation for realism
       ref.rotation.x += data.rotationSpeed[0];
@@ -108,7 +118,12 @@ export default function IceCubes(props: any) {
   return (
     <group {...props}>
       {cubesData.map((data, i) => (
-        <group key={i} ref={(el) => { cubeRefs.current[i] = el; }}>
+        <group
+          key={i}
+          ref={(el) => {
+            cubeRefs.current[i] = el;
+          }}
+        >
           <mesh
             geometry={iceGeometry}
             material={iceMaterial}

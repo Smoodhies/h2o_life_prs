@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import NoiseOverlay from "@/components/ui/NoiseOverlay";
 import LiquidBackground from "@/components/ui/LiquidBackground";
+import PageLoader from "@/components/ui/PageLoader";
 import { ThemeProvider } from "@/context/ThemeContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -21,6 +22,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.variable} suppressHydrationWarning>
         <ThemeProvider>
+          <PageLoader />
           <LiquidBackground />
           <NoiseOverlay />
           <div className="relative z-10">{children}</div>

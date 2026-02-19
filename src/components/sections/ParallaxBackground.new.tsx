@@ -56,35 +56,47 @@ export default function ParallaxBackground() {
     // Mountains: grow upward from 10% below original position
     if (mountainsRef.current) {
       gsap.set(mountainsRef.current, { y: "10%", opacity: 0.7 });
-      tl.to(mountainsRef.current, {
-        y: "0%",
-        opacity: 1,
-        duration: 2.4,
-        ease: "power2.out",
-      }, 0.2);
+      tl.to(
+        mountainsRef.current,
+        {
+          y: "0%",
+          opacity: 1,
+          duration: 2.4,
+          ease: "power2.out",
+        },
+        0.2,
+      );
     }
 
     // Rock: scale up from bottom
     if (rockRef.current) {
       gsap.set(rockRef.current, { y: "60%", opacity: 0, scale: 0.8 });
-      tl.to(rockRef.current, {
-        y: "0%",
-        opacity: 1,
-        scale: 1,
-        duration: 1.6,
-        ease: "back.out(1.2)",
-      }, 0.8);
+      tl.to(
+        rockRef.current,
+        {
+          y: "0%",
+          opacity: 1,
+          scale: 1,
+          duration: 1.6,
+          ease: "back.out(1.2)",
+        },
+        0.8,
+      );
     }
 
     // Leaves: sweep in from sides to original position
     if (leavesRef.current) {
       gsap.set(leavesRef.current, { scale: 1.3, opacity: 0 });
-      tl.to(leavesRef.current, {
-        scale: 1,
-        opacity: 1,
-        duration: 2.2,
-        ease: "power3.out",
-      }, 0.4);
+      tl.to(
+        leavesRef.current,
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 2.2,
+          ease: "power3.out",
+        },
+        0.4,
+      );
     }
   }, []);
 
@@ -225,7 +237,13 @@ export default function ParallaxBackground() {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("deviceorientation", handleDeviceOrientation);
     };
-  }, [handleMouseMove, handleTouchMove, handleTouchEnd, handleScroll, handleDeviceOrientation]);
+  }, [
+    handleMouseMove,
+    handleTouchMove,
+    handleTouchEnd,
+    handleScroll,
+    handleDeviceOrientation,
+  ]);
 
   /* ---- compositing layer style (sky / mountain / lake share this) ---- */
   const sceneLayerStyle = (zIndex: number): React.CSSProperties => ({
@@ -351,10 +369,19 @@ export default function ParallaxBackground() {
           bottom: isPortrait ? "-2%" : isUltrawide ? "0%" : "0%",
           left: isPortrait ? "55%" : isUltrawide ? "68%" : "68%",
           transform: "translateX(-50%)",
-          width: isPortrait ? "min(460px, 85vw)" : isUltrawide ? "min(700px, 48vw)" : "min(660px, 56vw)",
-          height: isPortrait ? "min(330px, 38vh)" : isUltrawide ? "min(430px, 40vh)" : "min(410px, 42vh)",
+          width: isPortrait
+            ? "min(460px, 85vw)"
+            : isUltrawide
+              ? "min(700px, 48vw)"
+              : "min(660px, 56vw)",
+          height: isPortrait
+            ? "min(330px, 38vh)"
+            : isUltrawide
+              ? "min(430px, 40vh)"
+              : "min(410px, 42vh)",
           zIndex: 14,
-          transition: "left 0.3s ease, bottom 0.3s ease, width 0.3s ease, height 0.3s ease",
+          transition:
+            "left 0.3s ease, bottom 0.3s ease, width 0.3s ease, height 0.3s ease",
           display: "none",
         }}
       >
