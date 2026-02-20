@@ -1,7 +1,6 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
-import Image from "next/image";
 
 interface ProductCardProps {
   name: string;
@@ -9,140 +8,166 @@ interface ProductCardProps {
   description: string;
   imageSrc: string;
   accent?: string;
+  theme?: "light" | "dark";
   className?: string;
 }
 
-/**
- * Premium cinematic liquid-glass product card.
- * Matches navbar UI style (same glass bg, border, shadows, frost texture) with 1% blur.
- */
 export default function ProductCard({
   name,
   tagline,
   description,
   imageSrc,
-  accent = "var(--c-aqua)",
+  accent = "#00c2ff",
+  theme = "light",
   className = "",
 }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const isDark = theme === "dark";
+
+  const headingColor = isDark ? "#ffffff" : "#0A3E66";
+  const bodyColor = isDark ? "rgba(190,225,255,0.65)" : "rgba(10,62,102,0.60)";
 
   return (
     <div
-      className={`group relative overflow-hidden cursor-pointer flex flex-col h-full ${className}`}
+      className={`group relative cursor-pointer flex flex-col items-center text-center w-full overflow-hidden p-8 transition-all duration-500 ${className}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
-        transition: "box-shadow 0.3s ease",
-        borderRadius: 28,
-        background: "rgba(255, 255, 255, 0.08)",
-        backdropFilter: "blur(2px) saturate(180%)",
-        WebkitBackdropFilter: "blur(2px) saturate(180%)",
-        border: "1px solid rgba(255, 255, 255, 0.18)",
+        borderRadius: "5%",
+        backdropFilter: "blur(5px) saturate(160%)",
+        WebkitBackdropFilter: "blur(5px) saturate(160%)",
+        background: isDark ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.42)",
+        border: isDark
+          ? isHovered ? `1px solid rgba(0,194,255,0.55)` : "1px solid rgba(255,255,255,0.12)"
+          : isHovered ? `1px solid ${accent}66` : "1px solid rgba(255,255,255,0.65)",
         boxShadow: isHovered
-          ? `0 12px 40px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.4), inset 0 -1px 3px rgba(255,255,255,0.1), 0 0 30px ${accent}25`
-          : "0 8px 32px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.4), inset 0 -1px 3px rgba(255,255,255,0.1)",
-        padding: "clamp(1.25rem, 2.5vw, 1.75rem)",
+          ? isDark
+            ? `0 0 0 2px ${accent}30, 0 24px 48px rgba(0,0,0,0.55), 0 0 60px ${accent}18`
+            : `0 0 0 2px ${accent}40, 0 24px 48px rgba(0,100,200,0.22), 0 0 50px ${accent}14`
+          : isDark
+            ? "0 8px 32px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.06)"
+            : "0 8px 28px rgba(0,60,160,0.12), inset 0 1px 0 rgba(255,255,255,0.70)",
+        transform: isHovered ? "translateY(-10px)" : "translateY(0)",
+        willChange: "transform",
+        height: 520,
+        justifyContent: "space-between",
+        transition: "all 0.45s cubic-bezier(0.22,1,0.36,1)",
       }}
     >
-      {/* Top light refraction highlight — matches navbar liquid glass */}
-      <div
-        className="absolute inset-0 pointer-events-none rounded-[28px]"
-        style={{
-          background:
-            "radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.35), transparent 65%)",
-        }}
-      />
-
-      {/* Subtle frost texture overlay — matches navbar liquid glass */}
-      <div
-        className="absolute inset-0 pointer-events-none rounded-[28px]"
-        style={{
-          background: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E")`,
-          opacity: 0.6,
-          mixBlendMode: "overlay" as const,
-        }}
-      />
-
-      {/* Shimmer overlay */}
-      <div className="absolute inset-0 shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[28px]" />
-
-      {/* Accent glow on hover */}
-      <div
-        className="absolute -top-20 -right-20 w-60 h-60 rounded-full opacity-0 group-hover:opacity-30 transition-opacity duration-700 blur-3xl pointer-events-none"
-        style={{ background: accent }}
-      />
-
-      {/* Product image */}
-      <div
-        className="relative w-full flex items-center justify-center mb-4 pt-2"
-        style={{ height: 200 }}
-      >
-        {/* Soft blue glow behind product */}
+      {/* Liquid sheen overlay */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ borderRadius: "5%" }}>
         <div
-          className="absolute inset-0 flex items-center justify-center pointer-events-none"
+          className="absolute -top-full -left-full w-[300%] h-[300%] rotate-45 pointer-events-none"
           style={{
-            background: `radial-gradient(circle at 50% 60%, ${accent}15 0%, transparent 60%)`,
-            filter: "blur(15px)",
+            background: "linear-gradient(to bottom right, transparent, rgba(255,255,255,0.18), transparent)",
+            transition: "transform 1s ease",
           }}
         />
-        <Image
+        {/* Internal top glow */}
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(255,255,255,0.10), transparent)", opacity: 0.5 }} />
+      </div>
+
+      {/* Hover aqua tint overlay */}
+      <div
+        className="absolute inset-0 pointer-events-none transition-opacity duration-500"
+        style={{
+          borderRadius: "5%",
+          background: `linear-gradient(to top, ${accent}0a 0%, transparent 60%)`,
+          opacity: isHovered ? 1 : 0,
+        }}
+      />
+
+      {/* CAN IMAGE — fills top 2/3 of card */}
+      <div className="relative w-full flex-1 flex items-center justify-center">
+        {/* Aqua backlight glow — stronger on hover */}
+        <div
+          className="absolute inset-0 rounded-full pointer-events-none transition-all duration-500"
+          style={{
+            background: isDark
+              ? `radial-gradient(ellipse at 50% 65%, ${accent}${isHovered ? "44" : "22"} 0%, transparent 70%)`
+              : `radial-gradient(ellipse at 50% 65%, ${accent}${isHovered ? "38" : "1a"} 0%, transparent 70%)`,
+            filter: `blur(${isHovered ? 20 : 32}px)`,
+          }}
+        />
+
+        {/* Glow ring under can on hover */}
+        <div
+          className="absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-none rounded-full transition-all duration-500"
+          style={{
+            width: isHovered ? 160 : 100,
+            height: isHovered ? 28 : 16,
+            background: `radial-gradient(ellipse, ${accent}${isHovered ? "55" : "28"} 0%, transparent 70%)`,
+            filter: "blur(12px)",
+            opacity: isHovered ? 1 : 0.5,
+          }}
+        />
+
+        {/* Floating can */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src={imageSrc}
           alt={name}
-          width={160}
-          height={220}
-          className="relative z-10 object-contain transition-transform duration-500 group-hover:scale-110"
-          style={{ filter: `drop-shadow(0 10px 25px ${accent}30)` }}
-          priority={false}
+          className="relative z-10 object-contain"
+          style={{
+            width: 210,
+            height: "auto",
+            maxHeight: 340,
+            filter: isHovered
+              ? isDark
+                ? `drop-shadow(0 0 28px ${accent}66) drop-shadow(0 16px 32px rgba(0,0,0,0.70)) contrast(1.12) saturate(1.15) brightness(1.05)`
+                : `drop-shadow(0 0 22px ${accent}55) drop-shadow(0 16px 28px rgba(0,80,180,0.35)) contrast(1.12) saturate(1.15) brightness(1.05)`
+              : isDark
+                ? `drop-shadow(0 8px 20px rgba(0,0,0,0.60)) drop-shadow(0 0 12px ${accent}33) contrast(1.08) saturate(1.08)`
+                : `drop-shadow(0 8px 18px rgba(0,60,160,0.22)) drop-shadow(0 0 10px ${accent}22) contrast(1.08) saturate(1.08)`,
+            transform: isHovered ? "translateY(-16px) scale(1.07)" : "translateY(0) scale(1)",
+            transition: "all 0.50s cubic-bezier(0.22,1,0.36,1)",
+            animation: "subtleFloat 6s ease-in-out infinite",
+          }}
+          onError={(e) => { e.currentTarget.style.display = "none"; }}
+        />
+
+        {/* Reflection shimmer on hover */}
+        <div
+          className="absolute inset-0 z-20 pointer-events-none mix-blend-overlay"
+          style={{
+            borderRadius: "5%",
+            background: "linear-gradient(to top right, transparent, rgba(255,255,255,0.10), transparent)",
+            backdropFilter: "blur(20px)",
+            opacity: isHovered ? 1 : 0,
+            transition: "opacity 0.7s ease",
+          }}
         />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 text-center">
-        <h3 className="text-lg sm:text-xl font-bold text-white uppercase tracking-wide mb-2 group-hover:text-[var(--c-aqua)] transition-colors duration-500">
-          {tagline}
+      {/* TEXT */}
+      <div className="relative z-10 mt-6 space-y-2">
+        <h3
+          className="text-xl font-medium tracking-wide"
+          style={{ color: headingColor }}
+        >
+          {name}
         </h3>
-
-        <p className="text-xs sm:text-sm text-[var(--c-silver)] leading-relaxed opacity-75 mb-5 line-clamp-2">
+        <p
+          className="text-sm uppercase tracking-widest"
+          style={{ color: bodyColor }}
+        >
           {description}
         </p>
+      </div>
 
-        {/* Glass CTA button - matches Order Now button style */}
-        <a
-          href="#"
-          className="group/btn inline-flex items-center gap-3 px-6 py-3 md:px-8 md:py-4 rounded-full text-sm md:text-base font-semibold text-white transition-all duration-300 hover:scale-[1.04] hover:brightness-125 active:scale-[0.98] relative overflow-hidden"
-          style={{
-            background: "rgba(255,255,255,0.08)",
-            backdropFilter: "blur(1px) saturate(180%)",
-            WebkitBackdropFilter: "blur(1px) saturate(180%)",
-            border: "1px solid rgba(255,255,255,0.18)",
-            boxShadow:
-              "0 8px 32px rgba(0,0,0,0.3), inset 0 1px 2px rgba(255,255,255,0.4), inset 0 -1px 3px rgba(255,255,255,0.1)",
-          }}
-        >
-          {/* Shimmer sweep */}
-          <span
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background:
-                "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.1) 45%, rgba(255,255,255,0.04) 50%, transparent 55%)",
-              animation: "shimmer-button 4s infinite",
-            }}
-          />
-          <span className="relative z-10">Shop Now</span>
-          <svg
-            className="relative z-10"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-        </a>
+      {/* View Details — appears on hover */}
+      <div
+        className="relative z-10 mt-6 flex items-center gap-2 text-sm font-medium transition-all duration-300"
+        style={{
+          color: isDark ? "#00c2ff" : "#0077cc",
+          opacity: isHovered ? 1 : 0,
+          transform: isHovered ? "translateY(0)" : "translateY(6px)",
+        }}
+      >
+        View Details
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
-# H2O Life — Hero Parallax Fix Log
+# H2O Life — Development Log
 
-**Status:** ✅ All phases complete  
-**Last Updated:** 2026-02-19
+**Status:** 🔄 Phase 12 in progress  
+**Last Updated:** 2026-02-20
 
 ---
 
@@ -79,7 +79,7 @@ teal-green cast (`#87CEEB`, `#6bbcd9`) that didn't match the natural scene.
 - [x] **Leaves** — sweep in from `y: 50%` bottom, 2.2s `power3.out`
 - [x] All animations staggered for cinematic feel
 
-### Touch Parallax (mobile/tablet)
+### Touch Par~allax (mobile/tablet)
 
 - [x] `touchmove` handler — maps touch position to parallax offset (reduced multipliers: 10x/6y vs 14x/8y)
 - [x] `touchend` — smoothly returns all layers to center (2.0s `power3.out`)
@@ -434,3 +434,167 @@ teal-green cast (`#87CEEB`, `#6bbcd9`) that didn't match the natural scene.
 - `context.md` — updated with Phase 11 changes
 
 **Status:** ✅ Product Showcase section fixes complete
+
+---
+
+## Phase 12 — Studio Navbar + Hero Integration
+
+**Status:** 🔄 In progress  
+**Date:** 2026-02-20
+
+**Goal:** Replace the existing `HeroNavbar` (SVG liquid distortion pill) and `Hero` (3D/GSAP/parallax) with the Studio equivalents — a liquid glass pill navbar with functional cart sidebar, and a lightweight CSS-only hero featuring a can PNG and floating ice cubes. All other sections (ProductShowcase, Features, 3D scene) remain completely untouched.
+
+**Why:** The Studio versions deliver a richer above-the-fold visual (glass shimmer pill, aqua glow can) with zero Three.js overhead in the first paint zone, leading to faster TTI. The cart sidebar adds real e-commerce utility that was missing.
+
+---
+
+### Source Project
+
+| Item | Value |
+|---|---|
+| Path | `d:\h20_life-main\h20_life-studio` |
+| Framework | Vite + React 19 |
+| Styling | Tailwind CSS via CDN (`index.html`) |
+| Icons | `lucide-react` via ESM CDN |
+| 3D / Animation | None — pure CSS keyframes only |
+| Dark mode | `dark:` class on `<html>` |
+
+### Target Project
+
+| Item | Value |
+|---|---|
+| Path | `c:\Users\ALI\OneDrive\Documents\GitHub\h2o_life_prs` |
+| Framework | Next.js 16 App Router |
+| Styling | Tailwind CSS v4 (PostCSS, installed) |
+| Icons | None — inline SVGs only (currently) |
+| 3D / Animation | Three.js + `@react-three/fiber` + `@react-three/drei` + GSAP |
+| Dark mode | `data-theme` attribute on `<html>` via `ThemeContext` |
+
+---
+
+### Assets Involved
+
+#### Studio Source Assets (external URLs — no download needed)
+
+| Asset | URL | Used In |
+|---|---|---|
+| Can black PNG | `https://i.ibb.co/hWk4Xqg/can-5.png` | `StudioHero.tsx` hero centerpiece |
+| Can green PNG | `https://i.ibb.co/27Qpj1s/can-1.png` | `constants/studio.ts` product list |
+| Can blue PNG | `https://i.ibb.co/hR0X5y8/can-2.png` | `constants/studio.ts` product list |
+| Can dark green PNG | `https://i.ibb.co/vjXH9zP/can-3.png` | `constants/studio.ts` product list |
+| Can white-blue PNG | `https://i.ibb.co/5KwF8yq/can-4.png` | `constants/studio.ts` product list |
+| Can white sketch PNG | `https://i.ibb.co/jT8z3qG/can-6.png` | `constants/studio.ts` product list |
+| Mist noise texture | `https://raw.githubusercontent.com/firebolt55439/assets/refs/heads/main/noise.png` | `StudioHero.tsx` background overlay |
+
+#### PRS Local Assets (kept, untouched)
+
+| Asset | Path | Used In |
+|---|---|---|
+| Logo | `/logos/h2o_logo.png` | `StudioNavbar.tsx` via `next/image` |
+| Black can front | `/hero_prd/black_front_can.png` | `Scene.tsx` 3D placeholder |
+| White can front | `/hero_prd/white_front_can.png` | `Scene.tsx` 3D placeholder |
+| Sky parallax | `/img/parallax/sky.png` | `ParallaxBackground.new.tsx` |
+| Mountains parallax | `/img/parallax/mountain.png` | `ParallaxBackground.new.tsx` |
+| Lake parallax | `/img/parallax/lake.png` | `ParallaxBackground.new.tsx` |
+| Leaves parallax | `/img/parallax/leafs.png` | `ParallaxBackground.new.tsx` |
+| Can front texture | `/textures/front.png` | `CanModel.tsx` |
+| Can back texture | `/textures/back.png` | `CanModel.tsx` |
+| Dark can front | `/img/dark_can/dark_front.png` | `CanModel.tsx` |
+| Dark can back | `/img/dark_can/dark_back.png` | `CanModel.tsx` |
+
+---
+
+### New Files Created
+
+| File | Purpose |
+|---|---|
+| `src/types/studio.ts` | `NavItem`, `Feature`, `Product` TypeScript interfaces |
+| `src/constants/studio.ts` | `NAV_ITEMS`, `IMAGES`, `FEATURES`, `PRODUCTS_LIST`, `MAIN_PRODUCT` |
+| `src/components/ui/StudioButton.tsx` | Ported `Button` — primary/secondary/outline variants, ArrowRight icon |
+| `src/components/ui/StudioProductCan.tsx` | Ported `ProductCan` — floating `<img>` with aqua glow, floor shadow |
+| `src/components/CartSidebar.tsx` | Functional cart slide-in panel — qty controls, item list, subtotal |
+| `src/components/layout/StudioNavbar.tsx` | Liquid glass pill navbar — scroll-aware, theme toggle, cart icon, mobile menu |
+| `src/components/sections/StudioHero.tsx` | CSS-only hero — can PNG, floating ice cubes, Shop Now anchor scroll |
+
+### Files Modified
+
+| File | Change |
+|---|---|
+| `package.json` | Added `"lucide-react": "^0.564.0"` to dependencies |
+| `tailwind.config.js` | Added `navy.900/800`, `glass` colors; `studio-gradient`, `studio-light`, `mist` backgroundImages; `shimmer`, `pulse-glow` animations + keyframes |
+| `src/context/ThemeContext.tsx` | Added `classList.toggle('dark')` alongside `data-theme` so Studio `dark:` classes respect PRS theme toggle |
+| `src/app/page.tsx` | Swapped `HeroNavbar` → `StudioNavbar`; swapped `Hero` → `StudioHero`; added `id="product-showcase"` to ProductShowcase wrapper |
+
+### Files Kept as Backup (not deleted)
+
+| File | Reason |
+|---|---|
+| `src/components/layout/HeroNavbar.tsx` | Reference / fallback — SVG liquid distortion pill |
+| `src/components/sections/Hero.tsx` | Reference / fallback — 3D GSAP parallax version (Phases 1–11) |
+| All `src/components/3d/` files | Still active — used by ProductShowcase GSAP ScrollTrigger |
+
+---
+
+### Theme System Reconciliation
+
+| Layer | PRS before | Studio | After fix |
+|---|---|---|---|
+| Toggle writes | `data-theme` on `<html>` | `dark` class on `<html>` | **Both** simultaneously |
+| CSS selectors | `html[data-theme="light"]` | `dark:*` Tailwind + `html:not(.dark)` | Both respected |
+| Default | Dark | Dark | Dark |
+| Persistence | `localStorage["theme"]` | Not persisted | `localStorage` retained |
+
+---
+
+### Nav Items Anchor Mapping
+
+| Studio Label | Studio SPA value | PRS Anchor Href | Scroll Target |
+|---|---|---|---|
+| Home | `home` | `#` | Top of page |
+| Shop | `shop` | `#product-showcase` | ProductShowcase section |
+| Sustainability | `sustainability` | `#features` | Features section |
+| Contact | `contact` | `#contact` | Footer area |
+
+---
+
+### Implementation Checklist
+
+- [x] `package.json` — added `lucide-react`
+- [x] `tailwind.config.js` — Studio tokens added
+- [x] `ThemeContext.tsx` — dual dark-mode write
+- [x] `src/types/studio.ts` — created
+- [x] `src/constants/studio.ts` — created
+- [x] `src/components/ui/StudioButton.tsx` — created
+- [x] `src/components/ui/StudioProductCan.tsx` — created
+- [x] `src/components/CartSidebar.tsx` — created
+- [x] `src/components/layout/StudioNavbar.tsx` — created
+- [x] `src/components/sections/StudioHero.tsx` — created
+- [x] `src/app/page.tsx` — wired
+- [ ] `npm install` run
+- [ ] Visual verification in browser
+- [ ] TypeScript check (`npx tsc --noEmit`)
+
+---
+
+### Acceptance Criteria
+
+- [ ] Studio Navbar renders as floating glass pill, shimmer/blur on scroll
+- [ ] Theme toggle updates both `data-theme` (PRS components) and `dark:` class (Studio components)
+- [ ] Cart icon shows badge count; opens CartSidebar slide-in panel
+- [ ] Cart: add/remove items, qty +/−, subtotal calculates correctly
+- [ ] "Shop Now" scrolls to `#product-showcase` section
+- [ ] Mobile: hamburger opens/closes Studio nav overlay
+- [ ] ProductShowcase + Features sections render and animate as before
+- [ ] No TypeScript errors
+- [ ] No hydration mismatch errors in console
+
+### Decisions
+
+- **Cart:** Functional (add, qty, remove, subtotal) — no checkout/payment, matches Studio scope
+- **Dark mode:** Dual-write strategy keeps both component systems in sync without refactoring PRS globals
+- **Can image:** External ibb.co URL via plain `<img>` (no `next/image` domain config needed)
+- **Logo:** Reuses existing `/logos/h2o_logo.png` via `next/image` in `StudioNavbar`
+- **Old Hero/Navbar:** Kept as backup — not deleted
+- **Routing:** Studio SPA `onNavigate` replaced with anchor `href` scroll — no new pages added
+- **Animations:** Studio keyframes (`shimmer`, `pulse-glow`, `float`) added to `tailwind.config.js` to stay consistent with how PRS manages custom animations
+
